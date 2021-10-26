@@ -6,31 +6,34 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Table(name = "user_type_master")
 @Entity
-@Table(name = "location")
-public class Location {
+public class UserTypeMaster {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
-    @Column(nullable = true, length = 20)
-    private String Name;
+
+
+    @Column(nullable = false, length = 20)
+    private String type;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "location")
+    @OneToMany(mappedBy = "type")
     private List<User> user = new ArrayList<>();
 
-    public Location(int id, String name, List<User> user) {
+    public UserTypeMaster(int id, String type, List<User> user) {
         this.id = id;
-        Name = name;
+        this.type = type;
         this.user = user;
     }
 
-    public Location(int id) {
+    public UserTypeMaster(int id) {
         this.id = id;
     }
 
-    public Location() {
+    public UserTypeMaster() {
     }
 
     public int getId() {
@@ -41,12 +44,12 @@ public class Location {
         this.id = id;
     }
 
-    public String getName() {
-        return Name;
+    public String getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public List<User> getUser() {
@@ -59,9 +62,9 @@ public class Location {
 
     @Override
     public String toString() {
-        return "Location{" +
+        return "UserTypeMaster{" +
                 "id=" + id +
-                ", Name='" + Name + '\'' +
+                ", type='" + type + '\'' +
                 ", user=" + user +
                 '}';
     }

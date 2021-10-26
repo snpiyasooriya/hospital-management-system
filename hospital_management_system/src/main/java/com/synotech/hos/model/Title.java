@@ -26,8 +26,8 @@ public class Title {
 	private int id;
 	
 	
-	@Column(nullable = true, length = 20)
-	private String Name;
+	@Column(nullable = false, length = 20)
+	private String name;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "title")
@@ -36,7 +36,7 @@ public class Title {
 	public Title(int id, String name, List<Patient> patient) {
 		super();
 		this.id = id;
-		Name = name;
+		this.name = name;
 		this.patient = patient;
 	}
 
@@ -54,11 +54,11 @@ public class Title {
 	}
 
 	public String getName() {
-		return Name;
+		return name;
 	}
 
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 
 	public List<Patient> getPatient() {
@@ -80,7 +80,7 @@ public class Title {
 
 	@Override
 	public String toString() {
-		return "Title [id=" + id + ", Name=" + Name + ", patient=" + patient + "]";
+		return "Title [id=" + id + ", Name=" + name + ", patient=" + patient + "]";
 	}
 	
 	

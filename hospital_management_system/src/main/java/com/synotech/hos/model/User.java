@@ -33,11 +33,15 @@ public class User implements Serializable {
     private String phone;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name="user_id", referencedColumnName = "id")
+    @JoinColumn(name="location_id", referencedColumnName = "id")
     private Location location;
 
-    public User(Long id, String firstName, String lastName, String nic, String dob, String address, String email, String phone) {
-        this.id = id;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "type_id", referencedColumnName = "id")
+    private UserTypeMaster type;
+
+
+    public User(String firstName, String lastName, String nic, String dob, String address, String email, String phone, Location location, UserTypeMaster type) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.nic = nic;
@@ -45,6 +49,8 @@ public class User implements Serializable {
         this.address = address;
         this.email = email;
         this.phone = phone;
+        this.location = location;
+        this.type = type;
     }
 
     public User() {
@@ -114,6 +120,22 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public UserTypeMaster getType() {
+        return type;
+    }
+
+    public void setType(UserTypeMaster type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -125,6 +147,8 @@ public class User implements Serializable {
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", location=" + location +
+                ", type=" + type +
                 '}';
     }
 }

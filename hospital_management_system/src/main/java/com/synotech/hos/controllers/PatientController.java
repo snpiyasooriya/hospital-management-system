@@ -30,11 +30,14 @@ public class PatientController {
 	public PatientController(PatientService patientService, TitleRepo titleRepo) {
 		this.patientService = patientService;
 	}
+
+	@CrossOrigin
 	@GetMapping
 	public List<Patient> getPatients(){
-			return patientService.getPatients();
+
+		return patientService.getPatients();
 	}
-	
+
 	@CrossOrigin
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Patient> create(@RequestBody 

@@ -104,11 +104,17 @@ public class Patient implements Serializable {
 		this.phone = phone;
 	}
 
+	public Patient(String firstName) {
+		this.firstName = firstName;
+	}
 
 	public Title getTitle() {
 		return title;
 	}
 
+	public Long getId() {
+		return id;
+	}
 
 	public void setTitle(Title title) {
 		this.title = title;
@@ -232,9 +238,5 @@ public class Patient implements Serializable {
 				+ nationality + ", religion=" + religion + ", gender=" + gender + ", email=" + email + ", phone="
 				+ phone + "]";
 	}
-	
-	
 
-	
-	
 }

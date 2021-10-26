@@ -22,6 +22,9 @@ public class PatientService {
 		return patientRepo.findAll();
 	}
 
+	public List<Patient> getPatientForTable(){
+		return patientRepo.getPatientForTable();
+	}
 	public Patient save(Patient newPateint) {
 		return patientRepo.save(newPateint);
 	}

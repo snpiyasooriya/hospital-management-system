@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     CBadge,
     CCard,
@@ -11,6 +11,7 @@ import {
 import { DocsLink } from 'src/reusable'
 
 import usersData from '../users/UsersData'
+import axios from 'axios'
 
 const getBadge = status => {
     switch (status) {
@@ -21,9 +22,22 @@ const getBadge = status => {
         default: return 'primary'
     }
 }
-const fields = ['name', 'registered', 'role', 'status']
+const fields = [ 'id','title','firstName', 'lastName', 'dob', 'nationality', 'nic']
 
 const Patient = () => {
+    const [patients, setpatients] = useState([])
+
+    const getPatients = async () => {
+        const res = await axios.get("http://localhost:8081/api/patient");
+       
+        setpatients(res.data)
+    }
+
+    useEffect(() => {
+        getPatients()
+    }, [])
+    console.log(patients)
+
     return (
         <>
 
@@ -33,7 +47,7 @@ const Patient = () => {
                 </CCardHeader>
                 <CCardBody>
                     <CDataTable
-                        items={usersData}
+                        items={patients}
                         fields={fields}
                         hover
                         striped
@@ -43,16 +57,20 @@ const Patient = () => {
                         pagination
                         sorter
                         tableFilter
-                        scopedSlots={{
-                            'status':
-                                (item) => (
-                                    <td>
-                                        <CBadge color={getBadge(item.status)}>
-                                            {item.status}
-                                        </CBadge>
-                                    </td>
-                                )
-                        }}
+                         scopedSlots = {{
+                'title':
+                  (item)=>(
+                    <td>
+                      
+                        {item.title.name}
+                    
+                    </td>
+                  )
+
+              }}
+
+                            
+                        
                     />
                 </CCardBody>
             </CCard>

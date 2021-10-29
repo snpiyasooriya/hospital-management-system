@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import {
-    CBadge,
     CCard,
     CCardBody,
     CCardHeader,
-    CCol,
     CDataTable,
-    CRow
+
 } from '@coreui/react'
 import { DocsLink } from 'src/reusable'
 
@@ -20,50 +18,43 @@ const getBadge = status => {
         default: return 'primary'
     }
 }
-const fields = ['id', 'title', 'firstName', 'lastName', 'dob', 'nationality', 'nic', 'admit']
+const fields = ['id', 'firstName', 'lastName', 'dob', 'nic', 'location']
 
-const Patient = () => {
-    const [patients, setpatients] = useState([])
+const Doctor = () => {
+    const [doctor, setDoctor] = useState([])
 
-    const getPatients = async () => {
-        const res = await axios.get("http://localhost:8081/api/patient");
+    const getDoctors = async () => {
+        const res = await axios.get("http://localhost:8081/api/doctor");
 
-        setpatients(res.data)
+        setDoctor(res.data)
     }
 
     const scopedSlots = {
-        'title':
-            (item) => (
-                <td>
-                    {item.title.name}
 
-                </td>
-            ),
-
-        'admit': (item) => (
+        'location': (item) => (
             <td>
-                <CBadge color={getBadge(item.admit)}>
-                    {item.admit == 1 ? "Admited" : item.admit === 0 ? "Discharged" : ""}
-                </CBadge>
+                {item.location.name}
+
             </td>
-        )
+        ),
 
     }
+
     useEffect(() => {
-        getPatients()
+        getDoctors()
     }, [])
-    console.log(patients)
+    console.log(doctor)
 
     return (
         <>
 
             <CCard>
                 <CCardHeader>
-                    Patients
+                    Doctor
                 </CCardHeader>
                 <CCardBody>
                     <CDataTable
-                        items={patients}
+                        items={doctor}
                         fields={fields}
                         hover
                         striped
@@ -84,4 +75,4 @@ const Patient = () => {
     )
 }
 
-export default Patient
+export default Doctor

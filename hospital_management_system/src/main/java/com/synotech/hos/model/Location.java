@@ -1,5 +1,6 @@
 package com.synotech.hos.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -20,10 +21,40 @@ public class Location {
     @OneToMany(mappedBy = "location")
     private List<User> user = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "location")
+    private List<Patient> patients = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "location")
+    private List<Ward> wards = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "location")
+    private List<Doctor> doctors = new ArrayList<>();
     public Location(int id, String name, List<User> user) {
         this.id = id;
         Name = name;
         this.user = user;
+    }
+
+    public Location(int id, String name, List<User> user, List<Doctor> doctors) {
+        this.id = id;
+        Name = name;
+        this.user = user;
+        this.doctors = doctors;
+    }
+
+    public Location(List<Doctor> doctors) {
+        this.doctors = doctors;
+    }
+
+    public List<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(List<Doctor> doctors) {
+        this.doctors = doctors;
     }
 
     public Location(int id) {
@@ -63,6 +94,7 @@ public class Location {
                 "id=" + id +
                 ", Name='" + Name + '\'' +
                 ", user=" + user +
+                ", doctors=" + doctors +
                 '}';
     }
 }

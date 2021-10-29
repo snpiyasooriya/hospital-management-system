@@ -36,9 +36,15 @@ const Colors = React.lazy(() => import('./views/theme/colors/Colors'));
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'));
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
 const Users = React.lazy(() => import('./views/users/Users'));
-const User = React.lazy(() => import('./views/users/User'));
+const User = React.lazy(() => import('./views/user/User'));
 const PatientCreate = React.lazy(() => import('./views/patient/CreatePatient'))
 const Patient = React.lazy(() => import('./views/patient/Patient'))
+const DoctorRegister = React.lazy(() => import('./views/doctor/RegisterDoctors'))
+const Doctor = React.lazy(() => import('./views/doctor/Doctor'))
+const AdmitPatient = React.lazy(() => import('./views/patient/AdmitPatient'))
+const TransferPatient = React.lazy(() => import('./views/patient/TransferPatient'))
+const UserRegister = React.lazy(() => import('./views/user/UserRegister'))
+
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -82,7 +88,13 @@ const routes = [
   { path: '/users', exact: true, name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
   { path: '/patient/create', exact: true, name: 'Patient Registration', component: PatientCreate },
-  { path: '/patient', exact: true, name: 'Patients', component: Patient }
+  { path: '/patient', exact: true, name: 'Patients', component: Patient },
+  { path: '/doctor/register', exact: true, name: 'Doctor Registration', component: DoctorRegister },
+  { path: '/doctor/', exact: true, name: 'View Doctor', component: Doctor },
+  { path: '/patient/admit', exact: true, name: 'Admit Patient', component: AdmitPatient },
+  { path: '/patient/transfer', exact: true, name: 'Transfer Patient', component: TransferPatient },
+  { path: '/user/register', exact: true, name: 'Register User', component: UserRegister },
+  { path: '/user', exact: true, name: 'User', component: User }
 ];
 
 export default routes;

@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import {
-    CBadge,
     CCard,
     CCardBody,
     CCardHeader,
-    CCol,
     CDataTable,
-    CRow
+
 } from '@coreui/react'
 import { DocsLink } from 'src/reusable'
-
-import usersData from '../users/UsersData'
 import axios from 'axios'
 
 const getBadge = status => {
@@ -20,50 +16,49 @@ const getBadge = status => {
         default: return 'primary'
     }
 }
-const fields = ['id', 'title', 'firstName', 'lastName', 'dob', 'nationality', 'nic', 'admit']
+const fields = ['id', 'firstName', 'lastName', 'dob', 'nic','email','phone','address', 'location', 'type']
 
-const Patient = () => {
-    const [patients, setpatients] = useState([])
+const User = () => {
+    const [user, setUser] = useState([])
 
-    const getPatients = async () => {
-        const res = await axios.get("http://localhost:8081/api/patient");
+    const getUsers = async () => {
+        const res = await axios.get("http://localhost:8081/api/user");
 
-        setpatients(res.data)
+        setUser(res.data)
     }
 
     const scopedSlots = {
-        'title':
-            (item) => (
-                <td>
-                    {item.title.name}
 
-                </td>
-            ),
-
-        'admit': (item) => (
+        'location': (item) => (
             <td>
-                <CBadge color={getBadge(item.admit)}>
-                    {item.admit == 1 ? "Admited" : item.admit === 0 ? "Discharged" : ""}
-                </CBadge>
+                {item.location.name}
+
             </td>
+        ),
+        'type':(item)=>(
+            <td>
+            {item.type.type}
+
+        </td>
         )
 
     }
+
     useEffect(() => {
-        getPatients()
+        getUsers()
     }, [])
-    console.log(patients)
+    console.log(user)
 
     return (
         <>
 
             <CCard>
                 <CCardHeader>
-                    Patients
+                    View User
                 </CCardHeader>
                 <CCardBody>
                     <CDataTable
-                        items={patients}
+                        items={user}
                         fields={fields}
                         hover
                         striped
@@ -75,7 +70,6 @@ const Patient = () => {
                         tableFilter
                         scopedSlots={scopedSlots}
 
-
                     />
                 </CCardBody>
             </CCard>
@@ -84,4 +78,4 @@ const Patient = () => {
     )
 }
 
-export default Patient
+export default User

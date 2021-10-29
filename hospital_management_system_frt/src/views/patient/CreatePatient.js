@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import {
   CButton,
@@ -18,11 +18,12 @@ import CIcon from '@coreui/icons-react'
 const CreatePatient = () => {
   const [collapsed, setCollapsed] = React.useState(true)
   const [showElements, setShowElements] = React.useState(true)
+  const [title, settitle] = useState([])
   const [newPatient, setnewPatient] = useState({
     title: '',
     firstName: '',
     lastName: '',
-    adress: '',
+    address: '',
     dob: '',
     nic: '',
     mStat: '',
@@ -34,6 +35,15 @@ const CreatePatient = () => {
 
   })
 
+  useEffect(() => {
+    getTitles()
+  }, [])
+
+  const getTitles = async () => {
+    axios.get('http://localhost:8081/api/title').then(e => settitle(e.data));
+
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     const data = JSON.stringify(newPatient)
@@ -44,6 +54,8 @@ const CreatePatient = () => {
     })
     console.log(res)
   }
+
+
 
   const handleChange = (e) => {
     const data = { ...newPatient }
@@ -69,10 +81,9 @@ const CreatePatient = () => {
               </CCol>
               <CCol xs="12" md="9">
                 <CSelect custom name="title" id="title" onChange={e => handleChange({ val: e.target.value, id: e.target.id })}>
-                  <option value="0">Please select</option>
-                  <option value="1">Option #1</option>
-                  <option value="2">Option #2</option>
-                  <option value="3">Option #3</option>
+                  {title.map((tit, i) => {
+                    return (<option value={tit.id} key={tit.id}>{tit.name}</option>)
+                  })}
                 </CSelect>
               </CCol>
             </CFormGroup>
@@ -95,10 +106,10 @@ const CreatePatient = () => {
             </CFormGroup>
             <CFormGroup row>
               <CCol md="3">
-                <CLabel htmlFor="adress">adress</CLabel>
+                <CLabel htmlFor="address">address</CLabel>
               </CCol>
               <CCol xs="12" md="9">
-                <CInput id="adress" name="adress" placeholder="Enter Address" onChange={e => handleChange({ val: e.target.value, id: e.target.id })} />
+                <CInput id="address" name="address" placeholder="Enter Address" onChange={e => handleChange({ val: e.target.value, id: e.target.id })} />
               </CCol>
             </CFormGroup>
             <CFormGroup row>

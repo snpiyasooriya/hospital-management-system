@@ -24,7 +24,15 @@ public class Patient implements Serializable {
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="title_id", referencedColumnName = "id")
 	private Title title;
-	
+
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "location_id", referencedColumnName = "id")
+	private Location location;
+
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "ward_id", referencedColumnName = "id")
+	private Ward ward;
+
 	@Column(nullable = false, length = 20)
 	private String firstName;
 	
@@ -37,8 +45,8 @@ public class Patient implements Serializable {
 	@Column(nullable = false, length = 20)
 	private String dob;
 	
-	@Column(nullable = false, length = 20)
-	private String adress;
+	@Column(nullable = false)
+	private String address;
 	
 	@Column(nullable = false, length = 3)
 	private int mStat;
@@ -60,16 +68,82 @@ public class Patient implements Serializable {
 	@Column(nullable = false, length = 10)
 	private String phone;
 
-	
+	@Column(length = 10, nullable = true, columnDefinition = "Integer default 2")
+	private int admit;
 
 	public Patient() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
+	public Patient(Long id, Title title, Location location, Ward ward, String firstName, String lastName, String nic, String dob, String address, int mStat, String nationality, String religion, int gender, String email, String phone, int admit) {
+		this.id = id;
+		this.title = title;
+		this.location = location;
+		this.ward = ward;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.nic = nic;
+		this.dob = dob;
+		this.address = address;
+		this.mStat = mStat;
+		this.nationality = nationality;
+		this.religion = religion;
+		this.gender = gender;
+		this.email = email;
+		this.phone = phone;
+		this.admit = admit;
+	}
+
+	public Patient(int admit) {
+		this.admit = admit;
+	}
+
+	public Patient(Long id, Title title, Location location, String firstName, String lastName, String nic, String dob, String adress, int mStat, String nationality, String religion, int gender, String email, String phone) {
+		this.id = id;
+		this.title = title;
+		this.location = location;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.nic = nic;
+		this.dob = dob;
+		this.address = adress;
+		this.mStat = mStat;
+		this.nationality = nationality;
+		this.religion = religion;
+		this.gender = gender;
+		this.email = email;
+		this.phone = phone;
+	}
+
+	public Patient(Long id, Title title, Location location, Ward ward, String firstName, String lastName, String nic, String dob, String address, int mStat, String nationality, String religion, int gender, String email, String phone) {
+		this.id = id;
+		this.title = title;
+		this.location = location;
+		this.ward = ward;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.nic = nic;
+		this.dob = dob;
+		this.address = address;
+		this.mStat = mStat;
+		this.nationality = nationality;
+		this.religion = religion;
+		this.gender = gender;
+		this.email = email;
+		this.phone = phone;
+	}
+
+	public Patient(Ward ward) {
+		this.ward = ward;
+	}
+
+	public Patient(Location location) {
+		this.location = location;
+	}
 
 	public Patient(Long id, Title title, String firstName, String lastName, String nic, String dob, String adress,
-			int mStat, String nationality, String religion, int gender, String email, String phone) {
+				   int mStat, String nationality, String religion, int gender, String email, String phone) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -77,7 +151,7 @@ public class Patient implements Serializable {
 		this.lastName = lastName;
 		this.nic = nic;
 		this.dob = dob;
-		this.adress = adress;
+		this.address = adress;
 		this.mStat = mStat;
 		this.nationality = nationality;
 		this.religion = religion;
@@ -95,7 +169,7 @@ public class Patient implements Serializable {
 		this.lastName = lastName;
 		this.nic = nic;
 		this.dob = dob;
-		this.adress = adress;
+		this.address = adress;
 		this.mStat = mStat;
 		this.nationality = nationality;
 		this.religion = religion;
@@ -125,6 +199,17 @@ public class Patient implements Serializable {
 		return firstName;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
+	}
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
@@ -135,6 +220,13 @@ public class Patient implements Serializable {
 		return lastName;
 	}
 
+	public int getAdmit() {
+		return admit;
+	}
+
+	public void setAdmit(int admit) {
+		this.admit = admit;
+	}
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
@@ -161,13 +253,13 @@ public class Patient implements Serializable {
 	}
 
 
-	public String getAdress() {
-		return adress;
+	public String getAddress() {
+		return address;
 	}
 
 
-	public void setAdress(String adress) {
-		this.adress = adress;
+	public void setAddress(String adress) {
+		this.address = adress;
 	}
 
 
@@ -230,13 +322,32 @@ public class Patient implements Serializable {
 		this.phone = phone;
 	}
 
+	public Ward getWard() {
+		return ward;
+	}
+
+	public void setWard(Ward ward) {
+		this.ward = ward;
+	}
 
 	@Override
 	public String toString() {
-		return "Patient [id=" + id + ", title=" + title + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", nic=" + nic + ", dob=" + dob + ", adress=" + adress + ", mStat=" + mStat + ", nationality="
-				+ nationality + ", religion=" + religion + ", gender=" + gender + ", email=" + email + ", phone="
-				+ phone + "]";
+		return "Patient{" +
+				"id=" + id +
+				", title=" + title +
+				", location=" + location +
+				", ward=" + ward +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", nic='" + nic + '\'' +
+				", dob='" + dob + '\'' +
+				", address='" + address + '\'' +
+				", mStat=" + mStat +
+				", nationality='" + nationality + '\'' +
+				", religion='" + religion + '\'' +
+				", gender=" + gender +
+				", email='" + email + '\'' +
+				", phone='" + phone + '\'' +
+				'}';
 	}
-
 }

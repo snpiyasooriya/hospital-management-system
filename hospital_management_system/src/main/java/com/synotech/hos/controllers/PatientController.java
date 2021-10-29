@@ -8,12 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.synotech.hos.dao.TitleRepo;
 import com.synotech.hos.model.Patient;
@@ -36,6 +31,40 @@ public class PatientController {
 	public List<Patient> getPatients(){
 
 		return patientService.getPatients();
+	}
+
+	@CrossOrigin
+	@GetMapping(path = "/admit")
+	public List<Patient> getPatientsForAdmit(){
+
+		return patientService.getPatientsForAdmit();
+	}
+
+	@CrossOrigin
+	@GetMapping(path = "/discharge")
+	public List<Patient> getPatientsForDischarge(){
+
+		return patientService.getPatientsForDischrge();
+	}
+
+	@PutMapping("/{location}/{id}")
+	@CrossOrigin
+	public void updateLocation(@PathVariable(value = "location") Integer location, @PathVariable("id") Integer id){
+		 patientService.transfer(location, id);
+
+	}
+	@PutMapping(path = "/admit/{location}/{id}/{wid}")
+	@CrossOrigin
+	public void updateWard(@PathVariable(value = "location") Integer location, @PathVariable("id") Integer id, @PathVariable(name = "wid") Integer wid){
+		patientService.admit(location, id, wid);
+
+	}
+
+	@PutMapping(path = "/discharge/{id}")
+	@CrossOrigin
+	public void updateWard( @PathVariable("id") Integer id){
+		patientService.discharge(id);
+
 	}
 
 	@CrossOrigin

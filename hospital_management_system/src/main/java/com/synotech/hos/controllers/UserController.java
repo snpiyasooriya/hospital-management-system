@@ -21,6 +21,8 @@ public class UserController {
     public UserController(UserService userService){
         this.userService = userService;
     }
+
+    @CrossOrigin
     @GetMapping
     public List<User> getUser(){
        return userService.getUsers();

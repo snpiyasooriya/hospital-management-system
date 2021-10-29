@@ -1,11 +1,14 @@
 package com.synotech.hos.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
-@Table(name = "user")
-public class User implements Serializable {
+@Table(name = "doctor")
+public class Doctor implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(nullable = false, updatable = false)
@@ -17,60 +20,71 @@ public class User implements Serializable {
     @Column(nullable = false, length = 20)
     private String lastName;
 
-    @Column(nullable = false, length = 10)
-    private String nic;
-
     @Column(nullable = false, length = 20)
     private String dob;
 
     @Column(nullable = false, length = 20)
+    private String  phone;
+
+    @Column(nullable = false, length = 20)
     private String address;
 
-    @Column (unique = true)
+    @Column(nullable = false, length = 20)
     private String email;
 
-    @Column(nullable = false, length = 10)
-    private String phone;
+    @Column(nullable = false, length = 20)
+    private String nic;
 
-    @Column(nullable = false)
-    private String password;
+    @ManyToMany
+    @JoinTable(
+            name = "doctor_specialist",
+            joinColumns = @JoinColumn(name = "doctor_id"),
+            inverseJoinColumns = @JoinColumn(name = "specialist_id")
+    )
+    @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+    private List<SpecialistMaster> specialist;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name="location_id", referencedColumnName = "id")
     private Location location;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "type_id", referencedColumnName = "id")
-    private UserTypeMaster type;
-
-
-    public User(String firstName, String lastName, String nic, String dob, String address, String email, String phone, Location location, UserTypeMaster type) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.nic = nic;
-        this.dob = dob;
-        this.address = address;
-        this.email = email;
-        this.phone = phone;
-        this.location = location;
-        this.type = type;
-    }
-
-    public User(Long id, String firstName, String lastName, String nic, String dob, String address, String email, String phone, String password, Location location, UserTypeMaster type) {
+    public Doctor(Long id, String firstName, String lastName, String dob, String phone, String address, String email, List<SpecialistMaster> specialist) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.nic = nic;
         this.dob = dob;
+        this.phone = phone;
         this.address = address;
         this.email = email;
-        this.phone = phone;
-        this.password = password;
-        this.location = location;
-        this.type = type;
+        this.specialist = specialist;
     }
 
-    public User() {
+    public Doctor(Long id, String firstName, String lastName, String dob, String phone, String address, String email, String nic, List<SpecialistMaster> specialist, Location location) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.phone = phone;
+        this.address = address;
+        this.email = email;
+        this.nic = nic;
+        this.specialist = specialist;
+        this.location = location;
+    }
+
+    public Doctor(Long id, String firstName, String lastName, String dob, String phone, String address, String email, List<SpecialistMaster> specialist, Location location) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.phone = phone;
+        this.address = address;
+        this.email = email;
+        this.specialist = specialist;
+        this.location = location;
+    }
+
+    public Doctor() {
     }
 
     public Long getId() {
@@ -97,6 +111,18 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
     public String getNic() {
         return nic;
     }
@@ -105,20 +131,16 @@ public class User implements Serializable {
         this.nic = nic;
     }
 
-    public String getDob() {
-        return dob;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setDob(String dob) {
-        this.dob = dob;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getAddress() {
@@ -137,43 +159,27 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
+    public List<SpecialistMaster> getSpecialist() {
+        return specialist;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public UserTypeMaster getType() {
-        return type;
-    }
-
-    public void setType(UserTypeMaster type) {
-        this.type = type;
+    public void setSpecialist(List<SpecialistMaster> specialist) {
+        this.specialist = specialist;
     }
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Doctor{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", nic='" + nic + '\'' +
                 ", dob='" + dob + '\'' +
+                ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
+                ", nic='" + nic + '\'' +
+                ", specialist=" + specialist +
                 ", location=" + location +
-                ", type=" + type +
                 '}';
     }
 }

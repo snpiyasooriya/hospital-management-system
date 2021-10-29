@@ -5,7 +5,7 @@ const TheFooter = () => {
   return (
     <CFooter fixed={false}>
       <div>
-        <a href="https://coreui.io" target="_blank" rel="noopener noreferrer">Synotech</a>
+        <a href="" target="_blank" rel="noopener noreferrer">Synotech</a>
         <span className="ml-1">&copy; 2021 Sayuru Piyasooriya.</span>
       </div>
 
